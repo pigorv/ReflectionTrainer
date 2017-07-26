@@ -1,9 +1,10 @@
-import java.lang.reflect.Field;
-import java.util.Optional;
+import annotations.CustomDateFormat;
+import annotations.JsonValue;
+import util.Utils;
 
-/**
- * Created by User-03 on 25.07.2017.
- */
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+
 public class JsonParser {
 
     private static final String OPENED_BRACE = "{";
@@ -12,7 +13,7 @@ public class JsonParser {
     private static final String QUOTES = "\"";
     private static final String COLON = ":";
 
-    public String parseToJson(Object object)  {
+    public static String parseToJson(Object object)  {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append(OPENED_BRACE);
@@ -30,14 +31,28 @@ public class JsonParser {
 
             if(value == null) continue;
 
-            stringBuilder.append(QUOTES).append(field.getName())
+            String name = field.getName();
+            if(field.isAnnotationPresent(JsonValue.class)) {
+                name = field.getAnnotation(JsonValue.class).name();
+            }
+
+            if(field.isAnnotationPresent(CustomDateFormat.class)) {
+                value = Utils.convertDateToString(
+                        (LocalDate)value,
+                        field.getAnnotation(CustomDateFormat.class).format());
+            }
+
+            stringBuilder.append(QUOTES).append(name)
                     .append(QUOTES).append(COLON).append(QUOTES)
                     .append(value).append(QUOTES)
                     .append(COMMA_DELIMITER);
         }
 
-        //Delete last comma delimiter
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        //Checking if Class get fields
+        if(stringBuilder.length() > 1) {
+            //Delete last comma delimiter
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+        }
         stringBuilder.append(CLOSED_BRACE);
 
         return stringBuilder.toString();
