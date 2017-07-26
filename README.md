@@ -4,7 +4,7 @@ With this open source project you could easily convert your Java Classes to simp
 
 At this stage only fields could be parsed
 
-## Futures
+## Features
 
 For now contains only two type of annotations:
 * JsonValue - sets field name
