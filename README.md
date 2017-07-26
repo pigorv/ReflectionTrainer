@@ -12,5 +12,5 @@ For now contains only two type of annotations:
 
 ## How to
 
-You could test project by running 'TrainingInvoker' class
+You could test project by running `TrainingInvoker` class
 or added to your project and test another classes
