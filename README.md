@@ -1,6 +1,6 @@
 # ReflectionTrainer
 
-With this open source project you could easly convert your Java Classes to simple JSON format.
+With this open source project you could easily convert your Java Classes to simple JSON format.
 
 At this stage only fields could be parsed
 
